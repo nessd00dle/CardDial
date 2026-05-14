@@ -26,9 +26,13 @@ connectDB();
 
 // Middlewares
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: true,
     credentials: true
 }));
+/*app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true
+}));*/
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -170,7 +174,7 @@ app.get('/debug/usuario/:id', async (req, res) => {
             nombre: usuario.nombre,
             nickname: usuario.nickname,
             fotoPerfil: usuario.fotoPerfil,
-            urlCompleta: `http://localhost:3000${usuario.fotoPerfil}`
+           urlCompleta: `${req.protocol}://${req.get('host')}${usuario.fotoPerfil}`
         });
     } catch (error) {
         res.status(500).json({ error: error.message });
